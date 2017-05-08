@@ -126,7 +126,7 @@
                                       // if everything is ok, try to upload file
                                       } else {
                                           if (move_uploaded_file($_FILES["facultyImage"]["tmp_name"], $target_file)) {
-                                              $facultyImage = basename( $_FILES["facultyImage"]["name"]);
+                                              $facultyImage =$target_file;
                                           } else {
                                               $message[]=  "Sorry, there was an error uploading your file.";
                                           }
@@ -196,7 +196,6 @@
                       <?php
                          echo $addNewmessage;
                          echo $UpdateMessage;
-                         print_r($message);
                        
                       ?>
                       <form action="" method="post" enctype="multipart/form-data">
@@ -222,14 +221,18 @@
                                     }
                                 ?>" name="position">
                         </div>
+
                         <div class="form-group">
-                           <img src="image/cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre" width="100" height="100">
+                        
+                             <img  src="<?php echo isset($_GET['editId'])? $FacultyAllData[0]->image_url:'image/default.png' ?>" class="img-thumbnail" alt="Cinque Terre" width="100" height="100" id="output">
+                          
+                            
                         </div> 
                         <div class="form-group">
                           <label for="image"><?php echo isset($_GET['editId'])? 'Edit':'Add' ?> Image</label>
-                           <input type="file" name="facultyImage" id="facultyImage">
+                           <input type="file" name="facultyImage" id="facultyImage" onchange="loadFile(event)">
                         </div>
-                        <div class="form-group">
+                          <div class="form-group">
                           <label for="icon"><?php echo isset($_GET['editId'])? 'Edit':'Add' ?> Details:</label>
                           <textarea class="form-control" name="details" rows="5" id="details
                           "><?php if (isset($_GET['editId'])) {
@@ -276,7 +279,7 @@
                                     $deleSuccess =  mysqli_error($conn);  
                                 }
                             }
-
+                          
                         ?>
                         <table class="table table-bordered">
                             <thead>

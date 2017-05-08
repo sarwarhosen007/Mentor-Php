@@ -159,6 +159,9 @@ $AdminData = json_decode($jsonAdminDataString);
                     <li class="<?php if($curentPage == 'faculty'){echo 'active';} ?>">
                         <a href="faculty.php"><i class="fa fa-fw fa-user"></i> Faculty</a>
                     </li>
+                    <li class="<?php if($curentPage == 'courses'){echo 'active';} ?>">
+                        <a href="courses.php"><i class="fa fa-fw fa-user"></i> Courses</a>
+                    </li>
                      
                 </ul>
             </div>

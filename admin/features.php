@@ -79,33 +79,6 @@ if (isset($_POST['delete_id'])) {
     }
 }
 
- $statusSuccess = "";
-/*if (isset($_POST['btnstatus'])) {
-
-    $status = $_POST['btnstatus'];
-    $status_id = $_GET['status_id'];
-
-    if ($status == "active") {
-        $sqlStatus = "UPDATE features SET status='deactive' WHERE id = '$status_id'";
-        echo $sqlStatus;
-        if(updateDB($sqlStatus)==1){
-           $statusSuccess = '<div class="alert alert-success alert-dismissable notification">
-                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                   <strong><b>success!</b> Successfully Deactive!</strong>
-                 </div>';
-        }
-    }else{
-        $sqlStatus = "UPDATE features SET status='active' WHERE id = '$status_id'";
-
-        if(updateDB($sqlStatus)==1){
-           $statusSuccess = '<div class="alert alert-success alert-dismissable notification">
-                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                   <strong><b>success!</b> Successfully Active!</strong>
-                 </div>';
-        }
-    }
-      
-}*/
 ?>
      <div id="page-wrapper">
 
