@@ -162,7 +162,9 @@ $AdminData = json_decode($jsonAdminDataString);
                     <li class="<?php if($curentPage == 'courses'){echo 'active';} ?>">
                         <a href="courses.php"><i class="fa fa-fw fa-user"></i> Courses</a>
                     </li>
-                     
+                    <li class="<?php if($curentPage == 'prices'){echo 'active';} ?>">
+                        <a href="prices.php"><i class="fa fa-fw fa-user"></i> Prices</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
