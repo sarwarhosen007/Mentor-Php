@@ -3,8 +3,8 @@
  include 'template/head.php';
  include 'config/updateDb.php';
 
- $jsonWorkshopDataString = getJSONFromDB("select * from workshop");
- $workshop = json_decode($jsonWorkshopDataString);
+ $jsonWorkshopDataString = getJSONFromDB("select * from workshop where id ='".$_GET['editId']."'");
+ $WorkshopAllData = json_decode($jsonWorkshopDataString);
 
 ?>
      <div id="page-wrapper">
@@ -152,19 +152,12 @@
                       ?>
                       <form action="" method="post">
                         <div class="form-group">
-                          <label for="title"><?php echo isset($_GET['editId'])?'Edit':'Add' ?> Workshop Title:</label>
-                          <?php
-                               if (isset($_POST['updateNewEducation'])) { ?>
-                                    <input type="text" class="form-control" id="title" placeholder="Enter Column Title!" value="<?php echo isset($_POST['title'])? $_POST['title'] :'' ?>" name="title">
-                              <?php }else{ ?>
-                                    <input type="text" class="form-control" id="title" placeholder="Enter Column Title!" value="<?php echo isset($_GET['editId'])? $workshop[0]->title :'' ?>" name="title">
-                             <?php }
-                           ?>
-                           
+                          <label for="title"><?php echo isset($_GET['editId'])?'Edit':'Add' ?> Workshop Title:</label>   
+                          <input type="text" class="form-control" id="title" placeholder="Enter Column Title!" value="<?php echo isset($_GET['editId'])? $WorkshopAllData[0]->title :'' ?>" name="title">
                         </div>
                         <div class="form-group">
                           <label for="icon"><?php echo isset($_GET['editId'])?'Edit':'Add' ?> Workshop Icon:</label>
-                          <input type="text" class="form-control" id="title" placeholder="Enter Column Title!" value="<?php echo isset($_GET['editId'])? $workshop[0]->icon :'' ?>" name="icon">
+                          <input type="text" class="form-control" id="title" placeholder="Enter Column Title!" value="<?php echo isset($_GET['editId'])? $WorkshopAllData[0]->icon :'' ?>" name="icon">
                         </div>
                         <div class="form-group">
                         <label for="status">Select Anyone:</label>
@@ -184,6 +177,8 @@
                         <?php 
 
                             include 'config/mysqlDb.php';
+                             $jsonWorkshopDataString = getJSONFromDB("select * from workshop");
+                             $workshop = json_decode($jsonWorkshopDataString);
                             $deleSuccess = "";
                             if (isset($_POST['delete_id'])) {
                                 $sqlDelete = "DELETE FROM workshop WHERE id='".$_POST['delete_id']."'";

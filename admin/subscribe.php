@@ -1,5 +1,5 @@
 <?php 
- $curentPage = "index";
+ $curentPage = "subscribe";
  include 'template/head.php';
 
 ?>
