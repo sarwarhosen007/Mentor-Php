@@ -1,76 +1,38 @@
+<?php
+
+$jsonCoursesSubtitleString = getJSONFromDB("select * from section_subtitle where sectionName ='Courses'");
+
+$CoursesSubtitle = json_decode($jsonCoursesSubtitleString);
+
+$jsonCoursesDataString = getJSONFromDB("select * from courses where status='on'");
+$CoursesData = json_decode($jsonCoursesDataString);
+
+ ?>
 <!--Courses-->
     <section id ="courses" class="section-padding">
       <div class="container">
         <div class="row">
           <div class="header-section text-center">
             <h2>Courses</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
+            <p><?php echo $CoursesSubtitle[0]->subtitle; ?></p>
             <hr class="bottom-line">
           </div>
         </div>
       </div>
       <div class="container">
         <div class="row">
+        <?php for ($i=0; $i <sizeof($CoursesData); $i++) {  ?>
           <div class="col-md-4 col-sm-6 padleft-right">
             <figure class="imghvr-fold-up">
-              <img src="img/course01.jpg" class="img-responsive">
+              <img src="admin/<?php echo $CoursesData[$i]->image_url; ?>" class="img-responsive">
               <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
+                  <h3><?php echo $CoursesData[$i]->title; ?></h3>
+                  <p><?php echo $CoursesData[$i]->details; ?></p>
               </figcaption>
               <a href="#"></a>
             </figure>
           </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="img/course02.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="img/course03.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="img/course04.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="img/course05.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
-          <div class="col-md-4 col-sm-6 padleft-right">
-            <figure class="imghvr-fold-up">
-              <img src="img/course06.jpg" class="img-responsive">
-              <figcaption>
-                  <h3>Course Name</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam atque, nostrum veniam consequatur libero fugiat, similique quis.</p>
-              </figcaption>
-              <a href="#"></a>
-            </figure>
-          </div>
+          <?php } ?>   
         </div>
       </div>
     </section>

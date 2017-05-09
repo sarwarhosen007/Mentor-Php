@@ -80,7 +80,7 @@ $CoursessData = json_decode($jsonCoursesSubtitleString);
 
                         include 'config/mysqlDb.php';
                          
-                        $message = array();
+                         $message = "";
 
                         if ( isset($_POST['addNewCourse']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                               
@@ -101,53 +101,84 @@ $CoursessData = json_decode($jsonCoursesSubtitleString);
                                               //echo "File is an image - " . $check["mime"] . ".";
                                               $uploadOk = 1;
                                           } else {
-                                              $message[] = "File is not an image.";
+                                               
+                                              $message= 
+                                              '<div class="alert alert-info alert-dismissable notification">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Warning!</strong> File is not an image.
+                                             </div>';
+                                              
                                               $uploadOk = 0;
                                           }
 
                                       // Check if file already exists
                                       if (file_exists($target_file)) {
-                                          $message[] =  "Sorry, file already exists.";
+                                          
+                                          $message= 
+                                              '<div class="alert alert-info alert-dismissable notification">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Warning!</strong> Sorry, file already exists.
+                                             </div>';
+                                              
                                           $uploadOk = 0;
                                       }
                                       // Check file size
                                       if ($_FILES["courseImage"]["size"] > 500000) {
-                                          $message .= "Sorry, your file is too large.";
+                                           
+                                          $message= 
+                                              '<div class="alert alert-info alert-dismissable notification">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Warning!</strong> Sorry, your file is too large.
+                                             </div>';
+                                             
                                           $uploadOk = 0;
                                       }
                                       // Allow certain file formats
                                       if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                                      && $imageFileType != "gif" ) {
-                                          $message[]= "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                                      && $imageFileType != "gif" ) { 
+                                        $message= 
+                                              '<div class="alert alert-info alert-dismissable notification">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Warning!</strong> Sorry, only JPG, JPEG, PNG & GIF files are allowed.
+                                             </div>';
+                                              
                                           $uploadOk = 0;
                                       }
                                       // Check if $uploadOk is set to 0 by an error
                                       if ($uploadOk == 0) {
-                                          $message[]=  "Sorry, your file was not uploaded.";
+                                          
+                                          $message= $message;
+                                              
                                       // if everything is ok, try to upload file
                                       } else {
                                           if (move_uploaded_file($_FILES["courseImage"]["tmp_name"], $target_file)) {
                                               $courseImage =$target_file;
+                                              //print_r($_FILES["facultyImage"]["tmp_name"]);   
+                                               $sql = "INSERT into courses (title,details,image_url,status) values('$title','$details','$courseImage','$status')";
+                                               if(mysqli_query($conn, $sql)){
+                                                      $message = 
+                                                  '<div class="alert alert-success alert-dismissable notification">
+                                                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                      <strong>Success!</strong> The Value Insertered Successfully.
+                                                   </div>';
+
+                                               }else{
+                                                     $message = mysqli_error($conn);
+                                                    
+                                              }
                                           } else {
-                                              $message[]=  "Sorry, there was an error uploading your file.";
+                                              $message= 
+                                              '<div class="alert alert-info alert-dismissable notification">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Warning!</strong> Sorry, there was an error uploading your file.
+                                             </div>';
                                           }
                                       }
+                                           
                                      }
-                                     //print_r($_FILES["facultyImage"]["tmp_name"]);   
-                                     $sql = "INSERT into courses (title,details,image_url,status) values('$title','$details','$courseImage','$status')";
-                                     if(mysqli_query($conn, $sql)){
-                                            $addNewmessage = 
-                                        '<div class="alert alert-success alert-dismissable notification">
-                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                            <strong>Success!</strong> The Value Insertered Successfully.
-                                         </div>';
-
-                                     }else{
-                                           $addNewmessage = mysqli_error($conn);
-                                          
-                                    } 
+                                      
                                 }else{
-                                   $addNewmessage = 
+                                   $message = 
                                         '<div class="alert alert-success alert-dismissable notification">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                             <strong>Warning!</strong> Insert Value First.
@@ -192,7 +223,7 @@ $CoursessData = json_decode($jsonCoursesSubtitleString);
                     <div class="col-lg-6"> 
                        <h2 style="color: red; ">Add new Course</h2>
                       <?php
-                         echo $addNewmessage;
+                         echo $message;
                          echo $UpdateMessage;
                          //print_r($message);
                       ?>

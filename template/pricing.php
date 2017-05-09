@@ -1,18 +1,28 @@
-<!--Pricing-->
+<?php
+
+$jsonPricesSubtitleString = getJSONFromDB("select * from section_subtitle where sectionName ='Prices'");
+
+$PricesSubtitle = json_decode($jsonFaculitySubtitleString);
+
+$jsonPricesDataString = getJSONFromDB("select * from prices where status='on'");
+$PricesData = json_decode($jsonPricesDataString);
+
+ ?><!--Pricing-->
     <section id ="pricing" class="section-padding">
       <div class="container">
         <div class="row">
           <div class="header-section text-center">
             <h2>Our Pricing</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nesciunt vitae,<br> maiores, magni dolorum aliquam.</p>
+            <p><?php echo $PricesSubtitle[0]->subtitle; ?></p>
             <hr class="bottom-line">
           </div>
+          <?php for ($i=0; $i <sizeof($PricesData); $i++) { ?> 
           <div class="col-md-4 col-sm-4">
             <div class="price-table">
               <!-- Plan  -->
               <div class="pricing-head">
-                <h4>Monthly Plan</h4>
-                <span class="fa fa-usd curency"></span> <span class="amount">200</span> 
+                <h4><?php echo $PricesData[$i]->plan_name; ?></h4>
+                <span class="fa fa-usd curency"></span> <span class="amount"><?php echo $PricesData[$i]->price; ?></span> 
               </div>
           
               <!-- Plean Detail -->
@@ -21,34 +31,8 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <div class="price-table">
-              <!-- Plan  -->
-              <div class="pricing-head">
-                <h4>Quarterly Plan</h4>
-                <span class="fa fa-usd curency"></span> <span class="amount">800</span> 
-              </div>
-          
-              <!-- Plean Detail -->
-              <div class="price-in mart-15">
-                <a href="#" class="btn btn-bg yellow btn-block">PURCHACE</a> 
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <div class="price-table">
-              <!-- Plan  -->
-              <div class="pricing-head">
-                <h4>Year Plan</h4>
-                <span class="fa fa-usd curency"></span> <span class="amount">1200</span> 
-              </div>
-          
-              <!-- Plean Detail -->
-              <div class="price-in mart-15">
-                <a href="#" class="btn btn-bg red btn-block">PURCHACE</a> 
-              </div>
-            </div>
-          </div>
+          <?php } ?> 
+           
         </div>
       </div>
     </section>
