@@ -22,7 +22,7 @@ $FaculityData = json_decode($jsonFaculityDataString);
             <div class="pm-staff-profile-container" >
               <div class="pm-staff-profile-image-wrapper text-center">
                 <div class="pm-staff-profile-image">
-                  <img src="admin/<?php echo $FaculityData[$i]->image_url; ?>" alt="" class="img-thumbnail img-circle" />
+                  <img src="admin/<?php echo $FaculityData[$i]->image_url; ?>" alt="" style="height: 151px; width: 151px;" class="img-thumbnail img-circle" />
                 </div>   
               </div>                                
               <div class="pm-staff-profile-details text-center">  

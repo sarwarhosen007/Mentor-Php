@@ -63,7 +63,7 @@
             
            setTimeout(function() {
               $("div.notification").fadeOut("slow");
-           }, 3000); 
+           }, 10000); 
         });
     </script>
   </body>

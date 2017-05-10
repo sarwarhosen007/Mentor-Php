@@ -192,29 +192,36 @@ $CoursessData = json_decode($jsonCoursesSubtitleString);
 
                             if (isset($_POST['updateCourse'])) {
                                      
-                                 if (isset($_POST['title']) && isset($_POST['details'])  && !empty($_POST['title']) && !empty($_POST['details'])) {
+                                 if (isset($_POST['title']) && isset($_POST['details']) && isset($_FILES['courseImage']['name']) && !empty($_POST['title']) && !empty($_POST['details'])) {
+
+                                      $target_dir = "image/";
 
                                      $title      = $_POST['title'];
                                      $details    = $_POST['details'];
                                      $status     = $_POST['status'];
 
-                                     $sqlUpdate = "UPDATE courses SET title='$title', details='$details', status='$status' WHERE id='".$_GET['editId']."'";
+                                     $target_file = $target_dir . basename($_FILES["courseImage"]["name"]);
 
-                                     if(updateDB($sqlUpdate)==1){
-                                        
-                                       $UpdateMessage = '<div class="alert alert-success alert-dismissable notification">
-                                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                           <strong><b>success!</b> Data updated successfully!</strong>
-                                         </div>'; 
-                                         
-                                    }else{
+                                      if (move_uploaded_file($_FILES["courseImage"]["tmp_name"], $target_file)) {
+                                              $courseImage =$target_file;
 
-                                         $UpdateMessage = '<div class="alert alert-danger alert-dismissable notification">
-                                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                           <strong><b>Info!</b> Not updated!</strong>
-                                         </div>'; 
-                                      }
+                                              $sqlUpdate = "UPDATE courses SET title='$title', details='$details', status='$status', image_url='$courseImage' WHERE id='".$_GET['editId']."'";
 
+                                              if(updateDB($sqlUpdate)==1){
+                                                    
+                                                   $UpdateMessage = '<div class="alert alert-success alert-dismissable notification">
+                                                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                       <strong><b>success!</b> Data updated successfully!</strong>
+                                                     </div>';
+                                                     unset($_GET['editId']);     
+                                                }else{
+
+                                                     $UpdateMessage = '<div class="alert alert-danger alert-dismissable notification">
+                                                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                       <strong><b>Info!</b> Not updated!</strong>
+                                                     </div>'; 
+                                                  }
+                                              }
                                 }
                             }
                         } 

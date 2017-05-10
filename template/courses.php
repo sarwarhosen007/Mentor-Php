@@ -24,7 +24,7 @@ $CoursesData = json_decode($jsonCoursesDataString);
         <?php for ($i=0; $i <sizeof($CoursesData); $i++) {  ?>
           <div class="col-md-4 col-sm-6 padleft-right">
             <figure class="imghvr-fold-up">
-              <img src="admin/<?php echo $CoursesData[$i]->image_url; ?>" class="img-responsive">
+              <img src="admin/<?php echo $CoursesData[$i]->image_url; ?>" class="img-responsive" style="height: 317px; ">
               <figcaption>
                   <h3><?php echo $CoursesData[$i]->title; ?></h3>
                   <p><?php echo $CoursesData[$i]->details; ?></p>

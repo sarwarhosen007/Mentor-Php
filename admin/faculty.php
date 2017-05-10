@@ -162,21 +162,28 @@
 
                             if (isset($_POST['updateFaculty'])) {
                                      
-                                 if (isset($_POST['name']) && isset($_POST['position']) && isset($_POST['details']) && !empty($_POST['name']) && !empty($_POST['position']) && !empty($_POST['details'])) {
+                                 if (isset($_POST['name']) && isset($_POST['position']) && isset($_POST['details']) && isset($_FILES['facultyImage']['name']) && !empty($_POST['name']) && !empty($_POST['position']) && !empty($_POST['details'])) {
+
+                                     $target_dir = "image/";
 
                                      $name     = $_POST['name'];
                                      $position = $_POST['position'];
                                      $details  = $_POST['details'];
                                      $status   = $_POST['status'];
+                                     $target_file = $target_dir . basename($_FILES["facultyImage"]["name"]);
 
-                                     $sqlUpdate = "UPDATE faculty SET name='$name',position='$position', details='$details', status='$status' WHERE id='".$_GET['editId']."'";
-
-                                     if(updateDB($sqlUpdate)==1){
+                                     if (move_uploaded_file($_FILES["facultyImage"]["tmp_name"], $target_file)) {
+                                              $facultyImage =$target_file;
+                                              $sqlUpdate = "UPDATE faculty SET name='$name',position='$position', details='$details', status='$status', image_url = '$target_file'  WHERE id='".$_GET['editId']."'";
+                                              if(updateDB($sqlUpdate)==1){
                                         
                                        $UpdateMessage = '<div class="alert alert-success alert-dismissable notification">
                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                            <strong><b>success!</b> Data updated successfully!</strong>
-                                         </div>'; 
+                                         </div>';
+                                         unset($_GET['editId']);
+                                          
+
                                          
                                     }else{
 
@@ -185,7 +192,7 @@
                                            <strong><b>Info!</b> Not updated!</strong>
                                          </div>'; 
                                       }
-
+                                  } 
                                 }
                             }
                         } 
@@ -223,8 +230,14 @@
                         </div>
 
                         <div class="form-group">
-                        
-                             <img  src="<?php echo isset($_GET['editId'])? $FacultyAllData[0]->image_url:'image/default.png' ?>" class="img-thumbnail" alt="Cinque Terre" width="100" height="100" id="output">
+                             <?php if (isset($_GET['editId'])) { ?>
+                                <img  src="<?php echo $FacultyAllData[0]->image_url; ?>" class="img-thumbnail" alt="Cinque Terre" width="100" height="100" id="output">
+                            <?php }else{ ?>
+                                  
+                               <img  src="image/default.png" class="img-thumbnail" alt="Cinque Terre" width="100" height="100" id="output">
+
+                              <?php } ?>
+                              
                           
                             
                         </div> 
